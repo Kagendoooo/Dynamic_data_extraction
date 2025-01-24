@@ -17,9 +17,10 @@ class Source(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     base_url = Column(String, nullable=False)
-    
+    last_checked = Column(String, nullable=True)
     downloads = relationship('Download', back_populates='source')
-
+    def __repr__(self):
+        return f"<Source(id={self.id}, name={self.name}, base_url={self.base_url})>"
 
 """
 These are downloads from the source

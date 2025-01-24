@@ -4,6 +4,8 @@ from db.setupdb import setup_database, session
 from importers.wikipedia import import_wikipedia_content
 from importers.reddit import import_reddit_content
 from db.exporter import export_data
+from updaters.reddit_updater import check_for_new_reddit_content
+from updaters.wiki_updater import check_for_new_wikipedia_content
 import re
 
 def is_valid_url(url):
@@ -30,6 +32,8 @@ def main():
     parser.add_argument('--import_wikipedia', help='Import content from a Wikipedia page URL', action='store_true')
     parser.add_argument('--export_data', help='Export data to CSV and JSON', action='store_true')
     parser.add_argument('--import_reddit', help='Import content from a Reddit post URL', action='store_true')
+    parser.add_argument('--check_for_wikipedia_updates', help='Check for updates on Wikipedia', action='store_true')
+    parser.add_argument('--check_for_reddit_updates', help='Check for updates on Reddit', action='store_true')
     args = parser.parse_args()
 
     # Set up the database if the argument is passed
@@ -59,6 +63,16 @@ def main():
                 break
             else:
                 print("Please provide a valid URL.")
+
+    # Start checking for Wikipedia updates
+    if args.check_for_wikipedia_updates:
+        print("Starting periodic Wikipedia update checks...")
+        check_for_new_wikipedia_content()
+
+    # Start checking for Reddit updates
+    if args.check_for_reddit_updates:
+        print("Starting periodic Reddit update checks...")
+        check_for_new_reddit_content()
 
     # Exports and saves data from the database as JSON and CSV
     if args.export_data:
