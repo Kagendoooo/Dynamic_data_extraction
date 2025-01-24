@@ -11,3 +11,7 @@ pip install beautifulsoup4
 4. Pygraphviz
 sudo apt-get install graphviz-dev
 pip install pygraphviz
+
+5.DB browser for SQLite
+sudo apt update
+sudo apt install sqlitebrowser
