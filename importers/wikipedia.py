@@ -3,7 +3,7 @@ import requests
 import logging
 from urllib.parse import urlparse, parse_qs, unquote
 from sqlalchemy.exc import SQLAlchemyError
-from db.setup import session
+from db.setupdb import session
 from db.models import Source, Download, Document, Chunk
 
 #Logging set up to track the process in a console
