@@ -1,0 +1,40 @@
+.TH MAIN 1 "January 2025" "Dynamic Data Extraction Tool" "User Manual"
+
+.SH NAME
+main.py - A tool for importing, processing, and managing data from various platforms.
+
+.SH SYNOPSIS
+python main.py [OPTIONS]
+
+.SH DESCRIPTION
+This tool allows you to import, process, and manage data from platforms 
+like Wikipedia and Reddit. It also supports periodic updates and database management.
+
+.SH OPTIONS
+--setup_db
+    Initialize and set up the database. Run this before any other operations.
+
+--import_wikipedia URL
+    Import content from a specified Wikipedia page URL.
+
+--import_reddit URL
+    Import content from a specified Reddit post URL.
+
+--export_data
+    Export database content to CSV and JSON formats.
+
+--check_for_wikipedia_updates
+    Check periodically for updates on tracked Wikipedia pages.
+
+--check_for_reddit_updates
+    Check periodically for updates on tracked Reddit posts.
+
+.SH EXAMPLES
+Initialize the database:
+    python main.py --setup_db
+
+Import Wikipedia content:
+    python main.py --import_wikipedia "https://en.wikipedia.org/wiki/Python_(programming_language)"
+
+Export data to files:
+    python main.py --export_data
