@@ -1,0 +1,13 @@
+The following are the requirements of this project and how to install each:
+1. SQLAlchemy
+pip install sqlalchemy
+
+2. Requests
+pip install requests
+
+3. BeautifulSoup4
+pip install beautifulsoup4
+
+4. Pygraphviz
+sudo apt-get install graphviz-dev
+pip install pygraphviz
