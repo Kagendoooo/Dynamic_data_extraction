@@ -1,33 +1,42 @@
 # DYNAMIC DATA EXTRACTION
 
 ## Description
-This project involved creating a backend dynamic data importer and processor. We designed it to extract, process, and manage data from two sources which were Wikipedia and Reddit. The project involves creating a database which utilizes SQLAlchemy and SQLite. Once the data is fetched from the source, it is cleaned, added to the database and chunked. 
+This project involved creating a backend dynamic data importer and processor. It is designed to extract, process, and manage data from two sources which are Wikipedia and Reddit. The project involves creating a database which utilizes SQLAlchemy and SQLite. Once the data is fetched from the source, it is cleaned, added to the database and chunked. The project also features real-time updates if the contant has been updated at the source. The project is built with modularity and scalability in mind, with plans for future integration of AI-driven transformations and vector space embedding techniques as well as data collection from more sources
 
-## Features
+## **Key Features**
+- *Content Importers:*
+  - Wikipedia Importer: Fetch content from Wikipedia pages by providing URLs.
+  - Reddit Importer: Extract data from Reddit posts by providing post URLs.
 
-- Import content from:
-  - WordPress posts
-  - Wikipedia pages
-  - Reddit posts
-- Export data to CSV and JSON formats
-- Check for updates from existing sources
-- Set up and manage a SQLite database
+- *Database Integration:*
+  - Powered by *SQLite* (or other databases with minor configuration changes).
+  - Supports modular models for storing and retrieving data efficiently.
+  - Handles schema updates via Alembic migrations.
 
-## Requirements
+- *Export Functionality:*
+  - Export data to JSON and CSV formats for further analysis or sharing.
 
-- Python 3.8+
-- SQLite
-- Libraries:
-  - `sqlalchemy`
-  - `requests`
-  - `beautifulsoup4`
-  - `argparse`
-  - `logging`
+- *Real-Time Content Updates:*
+  - Automated update checks for Wikipedia and Reddit sources.
+  - Monitors pre-defined sources and fetches new content periodically.
 
-Install the required libraries using:
-```bash
-pip install -r requirements.txt
-```
+- *Command-Line Interface (CLI):*
+  - Fully interactive with --help for detailed guidance.
+  - Dynamic inputs for ease of use.
+
+- *Logging and Error Handling:*
+  - Comprehensive logging for debugging and process tracking.
+  - Handles exceptions gracefully with meaningful error messages.
+
+---
+
+
+### *Prerequisites*
+- Python 3.10 or later
+- Virtual environment (venv)
+- SQLite (pre-installed with Python)
+- Additional Python dependencies listed in requirements.txt
+
 
 ## Project Structure
 
@@ -35,102 +44,125 @@ pip install -r requirements.txt
 .
 ├── db
 │   ├── models.py         # Database models (Source, Download, Document, Chunk)
-│   ├── setup.py          # Database setup and session management
-│   └── exporter.py       # Export functionality for data
+│   ├── setupdb.py        # Database setup and session management
+│   ├── exporter.py       # Export functionality for data
+├── db_diagram
+│   ├── Database_diagram.png  # Visual representation of the database schema
+│   └── database_diagram.py   # Script to generate the database diagram
 ├── importers
-│   ├── reddit_importer.py  # Imports content from Reddit posts
-│   ├── wiki_importer.py    # Imports content from Wikipedia pages
-│   └── wp_importer.py      # Imports content from WordPress posts
+│   ├── reddit.py         # Imports content from Reddit posts
+│   ├── wikipedia.py      # Imports content from Wikipedia pages
 ├── updaters
-│   └── source_updater.py   # Checks for updates from existing sources
+│   ├── reddit_updater.py # Updates Reddit content
+│   ├── wiki_updater.py   # Updates Wikipedia
 ├── main.py               # CLI for running the application
+├── main.1                # Main entry point of the application
+├── README.md             # Project documentation
 └── requirements.txt      # Python dependencies
 ```
 
-## Usage
+## How it works
 
-### Setting Up the Database
+### *Installation*
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Kagendoooo/Dynamic_data_extraction.git
+   ```
+2. Move into the virtual environment:
+  ```bash
+python3 -m venv venv
+source venv/bin/activate
+  ```
+3. Move into the directory:
+   ```bash
+   cd Dynamic_data_exctraction
+   ```
+4. Install the dependencies from the requirements.txt file.
 
-Before importing content, set up the database:
-```bash
-python main.py --setup_db
-```
+### Database setup
+- Setup the database using:
+  ```bash 
+  python main.py --setup_db
+   ```
 
-### Importing Content
+### Data importing
+1. Importing data from Wikipedia:
+   ```bash
+   python main.py --import_wikipedia (URL here)
+   ```
 
-#### Import WordPress Content
-```bash
-python main.py --import_wp
-```
+2. Importing data from Reddit:
+    ```bash
+    python main.py --import_reddit (URL here)
+    ```
 
-#### Import Wikipedia Content
-```bash
-python main.py --import_wikipedia <Wikipedia_URL>
-```
+### Data exportation
+- The data collected is the exported to the database using:
+   ```bash
+   python main.py --export_data
+   ```
 
-#### Import Reddit Content
-```bash
-python main.py --import_reddit <Reddit_URL>
-```
+### Check for updates
 
-#### Import Dynamic WordPress Content
-```bash
-python main.py --dynamic_wp_importer <WordPress_URL>
-```
+1. Check for Wikipedia updates:
+   ```bash
+   python main.py --check_for_wikipedia_updates
+   ```
 
-### Checking for Updates
+2. Check for Reddit updates:
+   ```bash
+   python main.py --check_for_reddit_updates
+   ```
 
-To check for new content updates:
-```bash
-python main.py --check_for_updates
-```
 
-### Exporting Data
 
-To export data to CSV and JSON:
-```bash
-python main.py --export_data
-```
-
-## Code Overview
+## Code review
 
 ### Database Models (`db/models.py`)
 
-- **Source**: Represents a content source (e.g., WordPress, Wikipedia, Reddit).
+- **Source**: Represents a content source (e.g. Wikipedia, Reddit).
 - **Download**: Tracks downloaded content from a source.
 - **Document**: Stores the content of a download.
 - **Chunk**: Represents a portion of a document for easier processing.
 
 ### Importers
 
-- **`wp_importer.py`**: Fetches content from WordPress posts using a base URL and post slug.
-- **`wiki_importer.py`**: Fetches content from Wikipedia pages using the MediaWiki API.
-- **`reddit_importer.py`**: Fetches content from Reddit posts in JSON format.
+- **`wikipedia.py`**: Fetches content from Wikipedia pages using the MediaWiki API.
+- **`reddit.py`**: Fetches content from Reddit posts in JSON format.
 
 ### Exporter (`db/exporter.py`)
 
-Exports data from the database to CSV and JSON formats.
+- Exports data from the database to CSV and JSON formats.
 
 ### CLI (`main.py`)
 
-The CLI allows you to interact with the project through various command-line arguments.
+- The CLI allows you to interact with the project through various command-line arguments.
 
-## Logging
+### Updaters
 
-Logs are displayed in the console to track the progress and debug issues.
+- **`wiki_updater.py`**: Periodically check for updates to monitored Wikipedia pages.
+- **`reddit_updater.py`**: Periodically check for updates to monitored Reddit posts. 
 
-## Future Enhancements
+### Man file (`main.1`)
 
-- Add support for more content sources.
-- Implement advanced data analysis and visualization tools.
-- Add a web-based user interface for easier management.
+- This contains the user manual for the `main.py` file.
 
-## License
+###  Db_diagram
 
-This project is licensed under the MIT License.
-
----
-
-Feel free to contribute or raise issues for further improvements!
+- **`database_diagram.py`**: This was used to create the database diagram
+- **`Database_diagram.png`**: The database diagram generated
 
 
+## Technologies Used
+- Python: Core programming language.
+- SQLAlchemy: ORM for database management.
+- SQLite: Lightweight relational database for local storage.
+- Requests: HTTP client for interacting with APIs.
+- Logging: For debugging and tracking application processes.
+- Pygraphviz: Generates database diagram.
+
+
+
+## AUTHORS
+1. Simon Kamundia - simonkamundia8@gmail.com
+2. Nicole Maina - kagendonikki16@gmail.com
