@@ -70,8 +70,8 @@ This project involved creating a backend dynamic data importer and processor. It
    ```
 2. Move into the virtual environment:
   ```bash
-python3 -m venv venv
-source venv/bin/activate
+  python3 -m venv venv
+  source venv/bin/activate
   ```
 3. Move into the directory:
    ```bash
